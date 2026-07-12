@@ -43,3 +43,14 @@
 配置 MySQL，创建 `workshops`、`devices` 和 `maintenance_records` 三张核心表。
 
 
+## 2026-07-12：MySQL 数据库与建表脚本
+
+- 我发现 MySQL80 服务无法启动，通过错误日志定位到电脑名包含 Emoji，导致默认 PID 文件创建失败。
+- 我在 `my.ini` 中指定了英文 PID 文件 `mysql.pid`，随后 MySQL80 服务成功启动。
+- 我以 `root@localhost` 登录 MySQL，创建了 `equipment_ledger` 数据库，并使用 utf8mb4 字符集。
+- 我创建了 `workshops`、`devices`、`maintenance_records` 三张表。
+- 我理解了两条外键：设备的 `workshop_id` 指向车间；维修记录的 `device_id` 指向设备。
+- 我为设备状态、设备编号、价格和维修费用加入了约束，并为常用查询加入了索引。
+- 我把建表语句保存到 `database/schema.sql`，并在独立测试数据库中从零执行，确认三张表均能创建成功。
+- 我通过 `feature/database-schema` 分支提交并合并了数据库脚本。
+
