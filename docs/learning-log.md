@@ -64,3 +64,11 @@
 - 我运行了全部 4 个测试，全部通过。
 - 我启动应用并真实访问 `/api/health`，确认应用在连接 MySQL 后仍正常运行。
 
+## 2026-07-12：新增车间接口
+
+- `POST /api/workshops` 会将车间数据持久化到数据库。
+- `CreateWorkshopRequest` 用于接收创建请求，`WorkshopResponse` 用于返回创建后的数据。
+- 通过 `GeneratedKeyHolder` 获取数据库自动生成的车间 ID。
+- 车间名称为空或缺失时返回 400；名称重复时返回 409；带前后空格的名称会先去除空格。
+- Maven 共 12 个测试全部通过，0 failures、0 errors；并已在浏览器中手动确认 UTF-8 中文数据正常。
+
