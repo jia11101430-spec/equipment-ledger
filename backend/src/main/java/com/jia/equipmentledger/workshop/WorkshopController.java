@@ -22,7 +22,7 @@ public class WorkshopController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public WorkshopResponse createWorkshop(@RequestBody CreateWorkshopRequest request) {
+    public WorkshopResponse createWorkshop(@RequestBody(required = false) CreateWorkshopRequest request) {
         return workshopService.createWorkshop(request);
     }
 

@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,38 +89,44 @@ class WorkshopCreateApiTest {
                                 }
                                 """))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("车间名称不能为空"));
+                .andExpect(jsonPath("$.message").value("车间名称不能为空"))
+                .andExpect(content().json("""
+                        {"message":"车间名称不能为空"}
+                        """, JSONCompareMode.STRICT));
     }
 
     @Test
     void rejectsMissingWorkshopName() throws Exception {
         mockMvc.perform(post("/api/workshops")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
+                .content("{}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("车间名称不能为空"));
+                .andExpect(jsonPath("$.message").value("车间名称不能为空"))
+                .andExpect(content().json("""
+                        {"message":"车间名称不能为空"}
+                        """, JSONCompareMode.STRICT));
     }
 
     @Test
     void rejectsNullWorkshopRequestBody() throws Exception {
         mockMvc.perform(post("/api/workshops")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("null"))
+                .content("null"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {"message":"车间名称不能为空"}
-                        """));
+                        """, JSONCompareMode.STRICT));
     }
 
     @Test
     void rejectsEmptyWorkshopRequestBody() throws Exception {
         mockMvc.perform(post("/api/workshops")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(""))
+                .content(""))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {"message":"车间名称不能为空"}
-                        """));
+                        """, JSONCompareMode.STRICT));
     }
 
     @Test
