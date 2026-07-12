@@ -1,0 +1,13 @@
+package com.jia.equipmentledger;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class EquipmentLedgerApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
