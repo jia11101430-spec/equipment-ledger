@@ -33,3 +33,11 @@ $env:DB_USERNAME = "root"
 $securePassword = Read-Host -Prompt "输入 MySQL root 密码" -AsSecureString
 $env:DB_PASSWORD = [System.Net.NetworkCredential]::new("", $securePassword).Password
 ```
+
+
+设置完成后，在项目根目录运行：
+
+mvn -f backend/pom.xml test
+mvn -f backend/pom.xml spring-boot:run
+
+数据库账号和密码不写入 Git 仓库。
