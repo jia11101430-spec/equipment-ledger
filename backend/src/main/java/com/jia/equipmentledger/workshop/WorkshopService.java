@@ -14,6 +14,11 @@ public class WorkshopService {
         this.workshopRepository = workshopRepository;
     }
 
+    @Transactional
+    public WorkshopResponse createWorkshop(CreateWorkshopRequest request) {
+        return workshopRepository.create(request);
+    }
+
     @Transactional(readOnly = true)
     public List<WorkshopResponse> listWorkshops() {
         return workshopRepository.findAll();
