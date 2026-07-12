@@ -1,0 +1,17 @@
+# Java 和 Maven 的构建结果
+**/target/
+
+# 未来 Vue 前端安装的依赖和构建结果
+**/node_modules/
+**/dist/
+
+# IDE 和系统生成文件
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# 本地环境变量或密钥
+.env
+.env.*
