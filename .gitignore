@@ -15,3 +15,6 @@ Thumbs.db
 # 本地环境变量或密钥
 .env
 .env.*
+
+# 本地 Git worktree
+.worktrees/
