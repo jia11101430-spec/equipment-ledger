@@ -77,4 +77,33 @@ class WorkshopCreateApiTest {
         assertThat(count).isEqualTo(1);
         assertThat(responseId).isEqualTo(persistedId);
     }
+
+    @Test
+    void rejectsBlankWorkshopName() throws Exception {
+        mockMvc.perform(post("/api/workshops")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "   "
+                                }
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("车间名称不能为空"));
+    }
+
+    @Test
+    void rejectsDuplicateWorkshopName() throws Exception {
+        String name = "重复车间-" + UUID.randomUUID();
+        jdbcTemplate.update("INSERT INTO workshops (name) VALUES (?)", name);
+
+        mockMvc.perform(post("/api/workshops")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "%s"
+                                }
+                                """.formatted(name)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("车间名称已存在"));
+    }
 }
