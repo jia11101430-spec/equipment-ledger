@@ -16,7 +16,7 @@ public class WorkshopService {
 
     @Transactional
     public WorkshopResponse createWorkshop(CreateWorkshopRequest request) {
-        if (request.name() == null || request.name().isBlank()) {
+        if (request == null || request.name() == null || request.name().isBlank()) {
             throw new IllegalArgumentException("车间名称不能为空");
         }
 

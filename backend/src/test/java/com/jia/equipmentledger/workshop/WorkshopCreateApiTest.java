@@ -101,6 +101,50 @@ class WorkshopCreateApiTest {
     }
 
     @Test
+    void rejectsNullWorkshopRequestBody() throws Exception {
+        mockMvc.perform(post("/api/workshops")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("null"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json("""
+                        {"message":"车间名称不能为空"}
+                        """));
+    }
+
+    @Test
+    void rejectsEmptyWorkshopRequestBody() throws Exception {
+        mockMvc.perform(post("/api/workshops")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json("""
+                        {"message":"车间名称不能为空"}
+                        """));
+    }
+
+    @Test
+    void trimsWorkshopNameInResponseAndPersistence() throws Exception {
+        String rawName = "  空格车间-" + UUID.randomUUID() + "  ";
+        String trimmedName = rawName.trim();
+
+        mockMvc.perform(post("/api/workshops")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "%s"
+                                }
+                                """.formatted(rawName)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value(trimmedName));
+
+        Integer count = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM workshops WHERE name = ?", Integer.class, trimmedName
+        );
+
+        assertThat(count).isEqualTo(1);
+    }
+
+    @Test
     void rejectsDuplicateWorkshopName() throws Exception {
         String name = "重复车间-" + UUID.randomUUID();
         jdbcTemplate.update("INSERT INTO workshops (name) VALUES (?)", name);
