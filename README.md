@@ -17,3 +17,19 @@
 - 后端：Java 21、Spring Boot、Maven
 - 数据库：MySQL（后续接入）
 - 前端：Vue 3（后续接入）
+
+
+
+
+## 本地数据库运行
+
+运行数据库相关测试或启动后端前，需要确认 MySQL80 服务正在运行，并在当前 PowerShell 设置环境变量：
+
+```powershell
+$env:JAVA_HOME = "C:\Program Files\Java\jdk-24"
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+
+$env:DB_USERNAME = "root"
+$securePassword = Read-Host -Prompt "输入 MySQL root 密码" -AsSecureString
+$env:DB_PASSWORD = [System.Net.NetworkCredential]::new("", $securePassword).Password
+```
