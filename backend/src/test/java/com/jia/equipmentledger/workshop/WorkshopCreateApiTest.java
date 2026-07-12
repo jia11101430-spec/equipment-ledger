@@ -17,7 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.springframework.test.json.JsonCompareMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,7 +92,7 @@ class WorkshopCreateApiTest {
                 .andExpect(jsonPath("$.message").value("车间名称不能为空"))
                 .andExpect(content().json("""
                         {"message":"车间名称不能为空"}
-                        """, JSONCompareMode.STRICT));
+                        """, JsonCompareMode.STRICT));
     }
 
     @Test
@@ -104,7 +104,7 @@ class WorkshopCreateApiTest {
                 .andExpect(jsonPath("$.message").value("车间名称不能为空"))
                 .andExpect(content().json("""
                         {"message":"车间名称不能为空"}
-                        """, JSONCompareMode.STRICT));
+                        """, JsonCompareMode.STRICT));
     }
 
     @Test
@@ -115,7 +115,7 @@ class WorkshopCreateApiTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {"message":"车间名称不能为空"}
-                        """, JSONCompareMode.STRICT));
+                        """, JsonCompareMode.STRICT));
     }
 
     @Test
@@ -126,7 +126,7 @@ class WorkshopCreateApiTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {"message":"车间名称不能为空"}
-                        """, JSONCompareMode.STRICT));
+                        """, JsonCompareMode.STRICT));
     }
 
     @Test
