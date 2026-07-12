@@ -54,3 +54,13 @@
 - 我把建表语句保存到 `database/schema.sql`，并在独立测试数据库中从零执行，确认三张表均能创建成功。
 - 我通过 `feature/database-schema` 分支提交并合并了数据库脚本。
 
+## 2026-07-12：Spring Boot 连接 MySQL
+
+- 我先写了原生 JDBC 连接测试；在没有 MySQL 驱动时，测试以 `No suitable driver` 失败。
+- 我在 `pom.xml` 中加入 MySQL Connector/J，原生 JDBC 测试随后通过。
+- 我再写了 Spring `DataSource` 测试；它先因为没有数据源 Bean 而失败。
+- 我加入 Spring JDBC 依赖后，错误收敛为缺少数据源配置。
+- 我在 `application.properties` 中配置数据库 URL，并通过 `${DB_USERNAME}` 和 `${DB_PASSWORD}` 从环境变量读取账号密码，没有把密码提交到 Git。
+- 我运行了全部 4 个测试，全部通过。
+- 我启动应用并真实访问 `/api/health`，确认应用在连接 MySQL 后仍正常运行。
+
