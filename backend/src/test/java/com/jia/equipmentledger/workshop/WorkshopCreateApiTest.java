@@ -1,5 +1,8 @@
 package com.jia.equipmentledger.workshop;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -15,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -28,6 +32,9 @@ class WorkshopCreateApiTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     void createsWorkshopAndReturnsIt() throws Exception {
         String name = "接口创建车间-" + UUID.randomUUID();
@@ -36,7 +43,7 @@ class WorkshopCreateApiTest {
         String phone = "13800138000";
         String description = "用于接口创建测试";
 
-        mockMvc.perform(post("/api/workshops")
+        MvcResult result = mockMvc.perform(post("/api/workshops")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -54,12 +61,20 @@ class WorkshopCreateApiTest {
                 .andExpect(jsonPath("$.managerName").value(managerName))
                 .andExpect(jsonPath("$.location").value(location))
                 .andExpect(jsonPath("$.phone").value(phone))
-                .andExpect(jsonPath("$.description").value(description));
+                .andExpect(jsonPath("$.description").value(description))
+                .andReturn();
+
+        JsonNode response = objectMapper.readTree(result.getResponse().getContentAsString());
+        long responseId = response.get("id").longValue();
 
         Integer count = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM workshops WHERE name = ?", Integer.class, name
         );
+        Long persistedId = jdbcTemplate.queryForObject(
+                "SELECT id FROM workshops WHERE name = ?", Long.class, name
+        );
 
         assertThat(count).isEqualTo(1);
+        assertThat(responseId).isEqualTo(persistedId);
     }
 }
