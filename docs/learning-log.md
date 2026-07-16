@@ -72,3 +72,11 @@
 - 车间名称为空或缺失时返回 400；名称重复时返回 409；带前后空格的名称会先去除空格。
 - Maven 共 12 个测试全部通过，0 failures、0 errors；并已在浏览器中手动确认 UTF-8 中文数据正常。
 
+## 2026-07-16：查询设备列表接口
+
+- 我新增了 `GET /api/devices`，从 `devices` 表读取设备列表并返回 JSON。
+- `DeviceController` 只负责 HTTP 映射，`DeviceService` 负责事务边界，`DeviceRepository` 负责 SQL 查询。
+- 我使用 `DeviceResponse` 将数据库字段转换为接口字段，并保留 `BigDecimal`、`LocalDate` 等合适的 Java 类型。
+- 我为“先写入设备，再通过 MockMvc 查询已持久化数据”的场景补充了集成测试。
+- 设置当前终端的数据库环境变量后，Maven 共运行 13 个测试，全部通过，确认接口能够读取 MySQL 中已持久化的设备。
+
