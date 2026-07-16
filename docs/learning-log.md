@@ -86,3 +86,10 @@
 - 设备编号和名称为必填字段；价格不能为负数；状态限制为 `IN_USE`、`MAINTENANCE` 和 `RETIRED`。
 - 重复设备编号返回 409，不存在的设备返回 404，删除成功返回 204。
 - 通过 MockMvc 和 MySQL 集成测试验证了新增、编辑、删除、输入校验及不存在设备场景。
+
+## 2026-07-16：维修记录与设备状态统计
+
+- 新增 `POST /api/maintenance-records` 和 `GET /api/maintenance-records`。
+- 维修记录必须关联已存在的设备，维修时间不能为空，维修费用不能为负数。
+- 新增 `GET /api/statistics/devices/status`，按 `IN_USE`、`MAINTENANCE`、`RETIRED` 分组统计设备数量。
+- 使用 MockMvc 和 MySQL 集成测试验证维修记录持久化、查询、输入校验和状态统计；全部 19 项测试通过。
