@@ -9,7 +9,7 @@
 - [X] 设备管理接口：查询、新增、编辑、删除设备
 - [X] 维修记录接口：新增与查询
 - [X] 数据统计接口：设备状态数量
-- [ ] Vue 3 前端页面
+- [X] Vue 3 前端页面：设备列表与设备CRUD
 - [X] Spring Boot 健康检查接口：`GET /api/health`
 
 ## 技术栈
@@ -37,3 +37,14 @@ mvn -f backend/pom.xml test
 mvn -f backend/pom.xml spring-boot:run
 
 数据库账号和密码不写入 Git 仓库。
+
+
+## 前端运行
+
+先启动后端，再打开新的终端运行：
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```

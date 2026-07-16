@@ -1,47 +1,25 @@
 # 学习记录
 
-
-
 ## 2026-07-12：Spring Boot 最小闭环
 
-
-
 - 我创建了 `equipment-ledger` GitHub 仓库，并完成了第一次推送。
-
 - 我使用 Spring Initializr 创建了 Maven 与 Spring Web 项目。
-
 - 我使用 `mvn test` 验证 Spring Boot 默认项目能正常启动。
-
 - 我先写了 `HealthControllerTest`，因为接口不存在而得到 HTTP 404。
-
 - 我新增 `HealthController` 后，测试通过。
-
 - 我使用 `Invoke-RestMethod` 真实访问了 `GET /api/health`，得到 `status: ok` 和 `service: equipment-ledger`。
-
 - 我通过 `feature/health-api` 分支完成开发、推送，并合并回 `main`。
 
-
-
-## 今天理解的内容
-
-
+### 今天理解的内容
 
 - 浏览器或接口工具发送 HTTP 请求后，Spring Boot 根据请求路径找到控制器方法。
-
 - `@RestController` 表示这个类负责提供接口；返回的 Java `Map` 会自动转换为 JSON。
-
 - `@RequestMapping("/api")` 与 `@GetMapping("/health")` 组合为接口路径 `/api/health`。
-
 - 测试先失败、实现后通过，能证明新代码确实满足需求。
 
-
-
-## 下一步
-
-
+### 下一步
 
 配置 MySQL，创建 `workshops`、`devices` 和 `maintenance_records` 三张核心表。
-
 
 ## 2026-07-12：MySQL 数据库与建表脚本
 
@@ -93,3 +71,27 @@
 - 维修记录必须关联已存在的设备，维修时间不能为空，维修费用不能为负数。
 - 新增 `GET /api/statistics/devices/status`，按 `IN_USE`、`MAINTENANCE`、`RETIRED` 分组统计设备数量。
 - 使用 MockMvc 和 MySQL 集成测试验证维修记录持久化、查询、输入校验和状态统计；全部 19 项测试通过。
+
+## 2026-07-16：Vue 3 前端联调与设备 CRUD
+
+- 初始化 Vue 3 前端项目。
+- 使用 `ref` 管理设备列表、表单和加载状态。
+- 使用 `v-model` 绑定表单输入。
+- 使用 `fetch` 调用后端 REST API。
+- 理解 Vite 代理与 Spring Boot 的前后端联调。
+- 完成设备的查询、新增、编辑和删除。
+- 能够解释 `GET`、`POST`、`PUT`、`DELETE` 的用途。
+- 能够解释 Controller、Service、Repository 的职责。
+- 能够解释新增或修改后为什么要重新请求设备列表。
+
+### 遇到的问题
+
+- 新 PowerShell 窗口不会继承 Java 和数据库环境变量。
+- 后端曾因使用 Java 17 而无法运行 Java 21+ 编译的代码。
+- 重新设置 `JAVA_HOME`、`DB_USERNAME` 和 `DB_PASSWORD` 后解决。
+
+### 下一步
+
+- 整理项目文档和启动说明。
+- 检查 Git 改动。
+- 提交并推送 DAY7 成果。
